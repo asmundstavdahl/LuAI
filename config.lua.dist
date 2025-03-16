@@ -1,0 +1,7 @@
+local config = {
+    api_key = "INSERT YOUR API KEY HERE",
+    model = "gpt-4o-mini",
+    api_url = "https://api.openai.com/v1/chat/completions"
+}
+
+return config
