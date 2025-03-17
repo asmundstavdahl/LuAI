@@ -254,4 +254,7 @@ function json.encode(value, indent)
     return encodeValue(value, indent, 1)
 end
 
+json.encode = require("json-encode")
+json.decode = require("json-decode").decode
+
 return json
