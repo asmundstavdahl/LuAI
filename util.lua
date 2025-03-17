@@ -1,14 +1,13 @@
 local util = {}
 
--- Use json-lua for JSON operations.
-local JSON = require("JSON")  -- Note the uppercase; json-lua is loaded as "JSON"
+local json = require("json")
 
 function util.to_json(value)
-    return JSON:encode(value)
+    return json.encode(value)
 end
 
 function util.from_json(str)
-    return JSON:decode(str)
+    return json.decode(str)
 end
 
 -- Try to load the 'mime' module from LuaSocket for Base64 encoding.
