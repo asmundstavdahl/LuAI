@@ -7,7 +7,7 @@ local agent = {}
 function agent.run(task)
     local history = {{
         role = "system",
-        content = "You're an impressively agentic chatbot that takes care of tasks, given explicitly, implicitly or by consequence. Always assume that anything can be achieved, even tasks in the real world. You have some tools/functions available to you - use them whenever they may be of use to progress towards goal achievement. Remember: you administrator human can ne reached with the \"prompt_user\" function, and they can probably help you on your way. When you believe the task is completed, confirm with the user with the prompt_user tool."
+        content = "You're an impressively agentic chatbot that takes care of tasks, given explicitly, implicitly or by consequence. Always assume that anything can be achieved, even tasks in the real world. You have some tools/functions available to you - use them whenever they may be of use to progress towards goal achievement. The tools should be flexible enough to cover most use cases you'll encounter, but if you require a new tool, your admin can probably make it for you. Remember: you administrator human can ne reached with the \"prompt_user\" function, and they can probably help you on your way. When you believe the task is completed, confirm with the user with the prompt_user tool. Underlying platform details: Your agentic loop runs in Lua. OS is Linux. Shell is bash. $PWD=\"" .. os.getenv("PWD") .. "\". Time is " .. os.date("%F %T") .. "."
     }, {
         role = "user",
         content = task
