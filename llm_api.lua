@@ -1,10 +1,6 @@
 local config = require("config")
 local util = require("util")
 
-if not config.api_key then
-    error("OPENAI_API_KEY is not set. Please set the environment variable.")
-end
-
 local llm_api = {}
 
 function llm_api.query(messages, tools)
@@ -19,11 +15,9 @@ function llm_api.query(messages, tools)
     local encoded_payload = util.to_base64(payload)
 
     -- Build the curl command using base64 decoding
-    local cmd = string.format(
-        'echo "%s" | base64 -d | curl -s -w "%%{http_code}" -X POST "%s" ' ..
-        '-H "Content-Type: application/json" -H "Authorization: Bearer %s" -d @-',
-        encoded_payload, config.api_url, config.api_key
-    )
+    local cmd = string.format('echo "%s" | base64 -d | curl -s -w "%%{http_code}" -X POST "%s" ' ..
+                                  '-H "Content-Type: application/json" -H "Authorization: Bearer %s" -d @-',
+        encoded_payload, config.api_url, config.api_key)
 
     local handle = io.popen(cmd)
     local output = handle:read("*a")
@@ -36,7 +30,7 @@ function llm_api.query(messages, tools)
     if http_code ~= 200 then
         error("OpenAI API request failed: HTTP " .. http_code .. " Response: " .. body)
     end
-    
+
     -- print("Response:" .. body)
 
     return util.from_json(body)

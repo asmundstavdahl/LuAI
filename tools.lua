@@ -54,24 +54,21 @@ function tools.execute(tool_calls, history)
 end
 
 -- Default "prompt_user" tool
-tools.register(
-    "prompt_user",
-    "Prompts the user for input when the agent requires guidance.",
-    {
-        type = "object",
-        properties = {
-            prompt = {
-                type = "string",
-                description = "The message to display to the user"
-            }
-        },
-        required = { "prompt" }
+tools.register("prompt_user", "Prompts the user for input when the agent requires guidance.", {
+    type = "object",
+    properties = {
+        prompt = {
+            type = "string",
+            description = "The message to display to the user"
+        }
     },
-    function(params)
-        io.write(params.prompt .. "\n> ")
-        local response = io.read()
-        return { response = response }
-    end
-)
+    required = {"prompt"}
+}, function(params)
+    io.write(params.prompt .. "\n> ")
+    local response = io.read()
+    return {
+        response = response
+    }
+end)
 
 return tools

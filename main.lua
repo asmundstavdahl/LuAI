@@ -5,28 +5,34 @@ local agent = require("agent")
 local tools = require("tools")
 
 -- Register additional tools
-tools.register(
-    "calculate",
-    "Evaluates a mathematical expression.",
-    {
-        type = "object",
-        properties = {
-            expression = { type = "string", description = "Math expression to evaluate (Lua syntax)" }
-        },
-        required = {"expression"}
+tools.register("calculate", "Evaluates a mathematical expression.", {
+    type = "object",
+    properties = {
+        expression = {
+            type = "string",
+            description = "Math expression to evaluate (Lua syntax)"
+        }
     },
-    function(params)
-        print("calculate: " .. params.expression)
-        local f, err = load("return " .. params.expression)
-        if f then
-            local ok, result = pcall(f)
-            if ok then return { result = result } end
+    required = {"expression"}
+}, function(params)
+    print("calculate: " .. params.expression)
+    local f, err = load("return " .. params.expression)
+    if f then
+        local ok, result = pcall(f)
+        if ok then
+            return {
+                result = result
+            }
         end
-        return { error = "Invalid expression" }
     end
-)
+    return {
+        error = "Invalid expression"
+    }
+end)
 
 -- Run the agent
 io.write("Enter a task: ")
-local task = io.read()
+local task = "list files in my home directory"
+print(task)
+-- local task = io.read()
 agent.run(task)
