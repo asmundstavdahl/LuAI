@@ -41,7 +41,7 @@ tools.register("execute_shell", "Executes a shell command using os.execute after
     required = {"command"}
 }, function(params)
     print("execute_shell: " .. params.command)
-    
+
     -- Ask for user confirmation
     io.write("Are you sure you want to execute this command? (yes/no): ")
     local response = io.read()
@@ -61,8 +61,6 @@ tools.register("execute_shell", "Executes a shell command using os.execute after
 end)
 
 -- Run the agent
-io.write("Enter a task: ")
-local task = "list files in my home directory"
-print(task)
--- local task = io.read()
+io.write("a: Yes?\n> ")
+local task = io.read()
 agent.run(task)
