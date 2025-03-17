@@ -5,17 +5,17 @@ local agent = require("agent")
 local tools = require("tools")
 
 -- Register additional tools
-tools.register("calculate", "Evaluates a mathematical expression.", {
+tools.register("evaluate_lua", "Evaluates a Lua expression.", {
     type = "object",
     properties = {
         expression = {
             type = "string",
-            description = "Math expression to evaluate (Lua syntax)"
+            description = "Lua expression to evaluate."
         }
     },
     required = {"expression"}
 }, function(params)
-    print("calculate: " .. params.expression)
+    print("evaluate_lua: " .. params.expression)
     local f, err = load("return " .. params.expression)
     if f then
         local ok, result = pcall(f)
@@ -26,8 +26,38 @@ tools.register("calculate", "Evaluates a mathematical expression.", {
         end
     end
     return {
-        error = "Invalid expression"
+        error = "Invalid expression (" .. err .. ")"
     }
+end)
+
+tools.register("execute_shell", "Executes a shell command using os.execute after user confirmation.", {
+    type = "object",
+    properties = {
+        command = {
+            type = "string",
+            description = "Shell command to execute."
+        }
+    },
+    required = {"command"}
+}, function(params)
+    print("execute_shell: " .. params.command)
+    
+    -- Ask for user confirmation
+    io.write("Are you sure you want to execute this command? (yes/no): ")
+    local response = io.read()
+
+    if response:lower() == "yes" then
+        local success, exit_reason, exit_code = os.execute(params.command)
+        return {
+            success = success,
+            exit_reason = exit_reason,
+            exit_code = exit_code
+        }
+    else
+        return {
+            error = "Execution cancelled by user."
+        }
+    end
 end)
 
 -- Run the agent
