@@ -63,4 +63,7 @@ end)
 -- Run the agent
 io.write("a: Yes?\n> ")
 local task = io.read()
-agent.run(task)
+if type(task) == "string" then
+    agent.run(task)
+end
+print("Bye")
