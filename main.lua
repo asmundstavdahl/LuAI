@@ -1,6 +1,14 @@
 package.path = "/data/data/com.termux/files/home/.luarocks/share/lua/5.4/?.lua;" .. package.path
 package.cpath = "/data/data/com.termux/files/home/.luarocks/lib/lua/5.4/?.so;" .. package.cpath
 
+-- Get the directory of the current script
+local function getScriptDirectory()
+    local scriptPath = debug.getinfo(1, "S").source:sub(2) -- Remove the '@' from the start
+    return scriptPath:match("(.*/)")
+end
+
+package.path = getScriptDirectory() .. "?.lua;" .. package.path
+
 local agent = require("agent")
 local tools = require("tools")
 
